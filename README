@@ -1,0 +1,6 @@
+Whereabout changes settings or invoke specified actions based on the Android device's location.  WiFi access points and its unique ID (BSSID) are used to fix the current location.
+
+Example of usage:
+
+ - Set silent mode on when out of home and reset when at home.
+ - Notify when you need to get off your train.
