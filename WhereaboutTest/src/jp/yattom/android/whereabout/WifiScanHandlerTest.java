@@ -32,6 +32,7 @@ public class WifiScanHandlerTest extends AndroidTestCase {
 		when(wifiMgr.getScanResults()).thenReturn(mockedResult);
 
 		WifiScanHandler target = new WifiScanHandler(audioMgr, wifiMgr);
+		target.setBssid("BSSID");
 		target.handle();
 		verify(audioMgr).setRingerMode(AudioManager.RINGER_MODE_VIBRATE);
 	}
@@ -44,6 +45,7 @@ public class WifiScanHandlerTest extends AndroidTestCase {
 		when(wifiMgr.getScanResults()).thenReturn(mockedResult);
 
 		WifiScanHandler target = new WifiScanHandler(audioMgr, wifiMgr);
+		target.setBssid("BSSID");
 		target.handle();
 		verify(audioMgr).setRingerMode(AudioManager.RINGER_MODE_NORMAL);
 	}
