@@ -4,10 +4,6 @@ import jp.yattom.android.whereabout.MainService;
 import android.content.Context;
 import android.media.AudioManager;
 import android.test.ServiceTestCase;
-import static org.hamcrest.MatcherAssert.*;
-import static org.hamcrest.Matchers.*;
-import static org.mockito.Matchers.*;
-import static org.mockito.Mockito.*;
 
 public class 家から出て帰るTest extends ServiceTestCase<MainService> {
 	public 家から出て帰るTest() {
@@ -21,9 +17,9 @@ public class 家から出て帰るTest extends ServiceTestCase<MainService> {
 		家にいる();
 		RingerModeをNormalにする();
 		家を離れる();
-		assertThat(RingerModeがバイブレーション(), is(true));
+		assertTrue(RingerModeがバイブレーション());
 		家にいる();
-		assertThat(RingerModeがNormal(), is(true));
+		assertTrue(RingerModeがNormal());
 	}
 
 	private boolean RingerModeがNormal() {
