@@ -1,36 +1,26 @@
 package jp.yattom.android.whereabout;
 
-import android.app.Service;
+import android.app.IntentService;
 import android.content.Context;
 import android.content.Intent;
 import android.media.AudioManager;
-import android.os.IBinder;
 
-public class MainService extends Service {
+public class MainService extends IntentService {
 
-	@Override
-	public IBinder onBind(Intent intent) {
-		return null; // disallow binding
+	public MainService() {
+		super("MainService");
 	}
 
 	@Override
-	public int onStartCommand(Intent intent, int flags, int startId) {
+	protected void onHandleIntent(Intent intent) {
 		final AudioManager audioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
 		audioManager.setRingerMode(AudioManager.RINGER_MODE_VIBRATE);
 
-		Thread thread = new Thread() {
-
-			@Override
-			public void run() {
-				try {
-					Thread.sleep(1000);
-					audioManager.setRingerMode(AudioManager.RINGER_MODE_NORMAL);
-				} catch (InterruptedException e) {
-					// ignore
-				}
-			}
-		};
-		thread.start();
-		return START_STICKY;
+		try {
+			Thread.sleep(1000);
+			audioManager.setRingerMode(AudioManager.RINGER_MODE_NORMAL);
+		} catch (InterruptedException e) {
+			// ignore
+		}
 	}
 }

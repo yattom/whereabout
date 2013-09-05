@@ -19,6 +19,11 @@
             </intent-filter>
         </activity>
         <service android:name=".MainService" />
+        <receiver android:exported="false" android:name=".WifiScanReceiver" android:enabled="true">
+            <intent-filter>
+                <action android:name="android.net.wifi.SCAN_RESULTS"/>
+            </intent-filter>
+        </receiver>
     </application>
 
 </manifest>
