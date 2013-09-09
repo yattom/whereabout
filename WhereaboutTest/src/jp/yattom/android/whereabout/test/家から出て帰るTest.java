@@ -1,7 +1,5 @@
 package jp.yattom.android.whereabout.test;
 
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
 import jp.yattom.android.whereabout.AudioStatus;
 import jp.yattom.android.whereabout.GivenLocationStatus;
 import jp.yattom.android.whereabout.Location;
@@ -10,6 +8,7 @@ import jp.yattom.android.whereabout.WhereaboutStatus;
 import jp.yattom.android.whereabout.WifiStatus;
 import android.media.AudioManager;
 import android.test.AndroidTestCase;
+import static org.mockito.Mockito.*;
 import static org.mockito.Matchers.*;
 
 public class 家から出て帰るTest extends AndroidTestCase {

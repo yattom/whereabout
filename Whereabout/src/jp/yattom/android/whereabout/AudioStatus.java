@@ -1,14 +1,21 @@
 package jp.yattom.android.whereabout;
 
+import android.media.AudioManager;
+
 public class AudioStatus {
 
-	public void setRingerMode(int ringerModeNormal) {
-		// TODO Auto-generated method stub
+	private AudioManager audioManager;
+
+	public AudioStatus(AudioManager audioManager) {
+		this.audioManager = audioManager;
+	}
+
+	public void setRingerMode(int ringerMode) {
+		audioManager.setRingerMode(ringerMode);
 	}
 
 	public int getRingerMode() {
-		// TODO Auto-generated method stub
-		return 0;
+		return audioManager.getRingerMode();
 	}
 
 }
