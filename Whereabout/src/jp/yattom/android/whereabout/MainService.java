@@ -8,6 +8,8 @@ import android.net.wifi.WifiManager;
 
 public class MainService extends IntentService {
 
+	private WifiStatus wifiStatus;
+
 	public MainService() {
 		super("MainService");
 	}
@@ -20,5 +22,9 @@ public class MainService extends IntentService {
 		SharedPreferences sp = getSharedPreferences("whereabout", MODE_PRIVATE);
 		handler.setBssid(sp.getString("bssid", ""));
 		handler.handle();
+	}
+
+	public void setWifiStatus(WifiStatus wifiStatus) {
+		this.wifiStatus = wifiStatus;
 	}
 }
