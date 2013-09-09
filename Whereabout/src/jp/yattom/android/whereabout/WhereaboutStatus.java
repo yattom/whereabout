@@ -22,9 +22,8 @@ public class WhereaboutStatus {
 			return;
 		}
 
-		String[] bssids = wifiStatus.getId();
-		for(int i = 0; i < bssids.length; i++) {
-			if(bssids[i].equals("HomeBSSID")) {
+		for(String bssid : wifiStatus.getId()) {
+			if(bssid.equals("HomeBSSID")) {
 				audioStatus.setRingerMode(AudioManager.RINGER_MODE_NORMAL);
 				return;
 			}

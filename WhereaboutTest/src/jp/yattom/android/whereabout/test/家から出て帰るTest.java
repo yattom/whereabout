@@ -1,5 +1,8 @@
 package jp.yattom.android.whereabout.test;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+
 import jp.yattom.android.whereabout.AudioStatus;
 import jp.yattom.android.whereabout.GivenLocationStatus;
 import jp.yattom.android.whereabout.Location;
@@ -19,7 +22,7 @@ public class 家から出て帰るTest extends AndroidTestCase {
 		WhereaboutStatus target = new WhereaboutStatus();
 
 		WifiStatus wifiStatus = mock(WifiStatus.class);
-		when(wifiStatus.getId()).thenReturn(new String[0]);
+		when(wifiStatus.getId()).thenReturn(new ArrayList<String>());
 		target.setWifiStatus(wifiStatus);
 
 		GivenLocationStatus givenLocationStatus = mock(GivenLocationStatus.class);
@@ -43,7 +46,7 @@ public class 家から出て帰るTest extends AndroidTestCase {
 	private void 家に入る() {
 		WhereaboutStatus status = createTarget();
 		WifiStatus wifiStatus = mock(WifiStatus.class);
-		when(wifiStatus.getId()).thenReturn(new String[] { "HomeBSSID" });
+		when(wifiStatus.getId()).thenReturn(Arrays.asList(new String[] { "HomeBSSID" }));
 		status.setWifiStatus(wifiStatus);
 		status.update();
 	}
