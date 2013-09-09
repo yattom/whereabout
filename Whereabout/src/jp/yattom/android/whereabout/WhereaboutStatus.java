@@ -6,6 +6,7 @@ public class WhereaboutStatus {
 	private WifiStatus wifiStatus;
 	private GivenLocationStatus givenLocationStatus;
 	private AudioStatus audioStatus;
+	private String homeBssid;
 
 	public void setWifiStatus(WifiStatus wifiStatus) {
 		this.wifiStatus = wifiStatus;
@@ -23,7 +24,7 @@ public class WhereaboutStatus {
 		}
 
 		for(String bssid : wifiStatus.getId()) {
-			if(bssid.equals("HomeBSSID")) {
+			if(bssid.equals(homeBssid)) {
 				audioStatus.setRingerMode(AudioManager.RINGER_MODE_NORMAL);
 				return;
 			}
@@ -33,5 +34,9 @@ public class WhereaboutStatus {
 
 	public void setAudioStatus(AudioStatus audioStatus) {
 		this.audioStatus = audioStatus;
+	}
+
+	public void setBssid(String bssid) {
+		this.homeBssid = bssid;
 	}
 }

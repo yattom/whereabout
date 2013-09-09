@@ -8,8 +8,6 @@ import android.net.wifi.WifiManager;
 
 public class MainService extends IntentService {
 
-	private WifiStatus wifiStatus;
-
 	public MainService() {
 		super("MainService");
 	}
@@ -18,13 +16,13 @@ public class MainService extends IntentService {
 	protected void onHandleIntent(Intent intent) {
 		final AudioManager audioManager = (AudioManager) getSystemService(AUDIO_SERVICE);
 		final WifiManager wifiManager = (WifiManager) getSystemService(WIFI_SERVICE);
-		WifiScanHandler handler = new WifiScanHandler(audioManager, wifiManager);
 		SharedPreferences sp = getSharedPreferences("whereabout", MODE_PRIVATE);
-		handler.setBssid(sp.getString("bssid", ""));
-		handler.handle();
-	}
 
-	public void setWifiStatus(WifiStatus wifiStatus) {
-		this.wifiStatus = wifiStatus;
+		WhereaboutStatus whereabout = new WhereaboutStatus();
+		whereabout.setAudioStatus(new AudioStatus(audioManager));
+		whereabout.setWifiStatus(new WifiStatus(wifiManager));
+		whereabout.setGivenLocationStatus(new GivenLocationStatus());
+		whereabout.setBssid(sp.getString("bssid", ""));
+		whereabout.update();
 	}
 }

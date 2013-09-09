@@ -17,6 +17,7 @@ import static org.mockito.Matchers.*;
 public class 家から出て帰るTest extends AndroidTestCase {
 	private Location home = new Location();
 	private AudioStatus audioStatus = new StubAudioStatus();
+	final static String DUMMY_HOME_BSSID = "HomeBSSID";
 
 	public WhereaboutStatus createTarget() {
 		WhereaboutStatus target = new WhereaboutStatus();
@@ -30,6 +31,8 @@ public class 家から出て帰るTest extends AndroidTestCase {
 		target.setGivenLocationStatus(givenLocationStatus);
 
 		target.setAudioStatus(audioStatus);
+		
+		target.setBssid(DUMMY_HOME_BSSID);
 
 		return target;
 	}
@@ -46,7 +49,7 @@ public class 家から出て帰るTest extends AndroidTestCase {
 	private void 家に入る() {
 		WhereaboutStatus status = createTarget();
 		WifiStatus wifiStatus = mock(WifiStatus.class);
-		when(wifiStatus.getId()).thenReturn(Arrays.asList(new String[] { "HomeBSSID" }));
+		when(wifiStatus.getId()).thenReturn(Arrays.asList(new String[] { DUMMY_HOME_BSSID }));
 		status.setWifiStatus(wifiStatus);
 		status.update();
 	}
