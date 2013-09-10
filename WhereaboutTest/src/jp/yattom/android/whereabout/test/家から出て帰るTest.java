@@ -1,54 +1,81 @@
 package jp.yattom.android.whereabout.test;
 
-import jp.yattom.android.whereabout.MainService;
-import android.content.Context;
+import java.util.ArrayList;
+import java.util.Arrays;
+
+import jp.yattom.android.whereabout.AudioStatus;
+import jp.yattom.android.whereabout.GivenLocationStatus;
+import jp.yattom.android.whereabout.Location;
+import jp.yattom.android.whereabout.StubAudioStatus;
+import jp.yattom.android.whereabout.WhereaboutStatus;
+import jp.yattom.android.whereabout.WifiStatus;
 import android.media.AudioManager;
-import android.test.ServiceTestCase;
+import android.test.AndroidTestCase;
+import static org.mockito.Mockito.*;
+import static org.mockito.Matchers.*;
 
-public class 家から出て帰るTest extends ServiceTestCase<MainService> {
-	public 家から出て帰るTest() {
-		super(MainService.class);
-	}
+public class 家から出て帰るTest extends AndroidTestCase {
+	private Location home = new Location();
+	private AudioStatus audioStatus = new StubAudioStatus();
+	final static String DUMMY_HOME_BSSID = "HomeBSSID";
 
-	public void setUp() throws Exception {
+	public WhereaboutStatus createTarget() {
+		WhereaboutStatus target = new WhereaboutStatus();
+
+		WifiStatus wifiStatus = mock(WifiStatus.class);
+		when(wifiStatus.getId()).thenReturn(new ArrayList<String>());
+		target.setWifiStatus(wifiStatus);
+
+		GivenLocationStatus givenLocationStatus = mock(GivenLocationStatus.class);
+		when(givenLocationStatus.getCurrent()).thenReturn(null);
+		target.setGivenLocationStatus(givenLocationStatus);
+
+		target.setAudioStatus(audioStatus);
+		
+		target.setBssid(DUMMY_HOME_BSSID);
+
+		return target;
 	}
 
 	public void test_家から出て帰る() throws Exception {
 		家にいる();
 		RingerModeをNormalにする();
 		家を離れる();
-		startService(null);
 		assertTrue(RingerModeがバイブレーション());
-		家にいる();
+		家に入る();
 		assertTrue(RingerModeがNormal());
 	}
 
+	private void 家に入る() {
+		WhereaboutStatus status = createTarget();
+		WifiStatus wifiStatus = mock(WifiStatus.class);
+		when(wifiStatus.getId()).thenReturn(Arrays.asList(new String[] { DUMMY_HOME_BSSID }));
+		status.setWifiStatus(wifiStatus);
+		status.update();
+	}
+
 	private boolean RingerModeがNormal() {
-		AudioManager audioManager = (AudioManager) getContext()
-				.getSystemService(Context.AUDIO_SERVICE);
-		return audioManager.getRingerMode() == AudioManager.RINGER_MODE_NORMAL;
+		return audioStatus.getRingerMode() == AudioManager.RINGER_MODE_NORMAL;
 	}
 
 	private boolean RingerModeがバイブレーション() {
-		AudioManager audioManager = (AudioManager) getContext()
-				.getSystemService(Context.AUDIO_SERVICE);
-		return audioManager.getRingerMode() == AudioManager.RINGER_MODE_VIBRATE;
+		return audioStatus.getRingerMode() == AudioManager.RINGER_MODE_VIBRATE;
 	}
 
 	private void 家を離れる() {
+		WhereaboutStatus status = createTarget();
+		status.update();
 	}
 
 	private void RingerModeをNormalにする() {
-		AudioManager audioManager = (AudioManager) getContext()
-				.getSystemService(Context.AUDIO_SERVICE);
-		audioManager.setRingerMode(AudioManager.RINGER_MODE_NORMAL);
+		audioStatus.setRingerMode(AudioManager.RINGER_MODE_NORMAL);
 	}
 
 	private void 家にいる() {
-		try {
-			Thread.sleep(1100);
-		} catch (InterruptedException e) {
-			// ignore
-		}
+		WhereaboutStatus status = createTarget();
+		GivenLocationStatus givenLocationStatus = mock(GivenLocationStatus.class);
+		when(givenLocationStatus.getCurrent()).thenReturn(home);
+		status.setGivenLocationStatus(givenLocationStatus);
+		status.update();
 	}
 }

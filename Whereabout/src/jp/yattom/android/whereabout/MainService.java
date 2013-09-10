@@ -14,11 +14,21 @@ public class MainService extends IntentService {
 
 	@Override
 	protected void onHandleIntent(Intent intent) {
+		SharedPreferences sp = getSharedPreferences("whereabout", MODE_PRIVATE);
+		String bssid = sp.getString("bssid", "");
+
+		WhereaboutStatus whereabout = createWhereaboutStatus(bssid);
+		whereabout.update();
+	}
+
+	private WhereaboutStatus createWhereaboutStatus(String bssid) {
+		WhereaboutStatus whereabout = new WhereaboutStatus();
 		final AudioManager audioManager = (AudioManager) getSystemService(AUDIO_SERVICE);
 		final WifiManager wifiManager = (WifiManager) getSystemService(WIFI_SERVICE);
-		WifiScanHandler handler = new WifiScanHandler(audioManager, wifiManager);
-		SharedPreferences sp = getSharedPreferences("whereabout", MODE_PRIVATE);
-		handler.setBssid(sp.getString("bssid", ""));
-		handler.handle();
+		whereabout.setAudioStatus(new AudioStatus(audioManager));
+		whereabout.setWifiStatus(new WifiStatus(wifiManager));
+		whereabout.setGivenLocationStatus(new GivenLocationStatus());
+		whereabout.setBssid(bssid);
+		return whereabout;
 	}
 }
